@@ -23,21 +23,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v7
-
-    # - name: Add MSBuild to PATH
-      # uses: microsoft/setup-msbuild@v1
-
-    # - name: Restore NuGet packages
-      # working-directory: ${{env.GITHUB_WORKSPACE}}
-      # run: nuget restore ${{env.SOLUTION_FILE_PATH}}
-
-    # - name: Build
-      # working-directory: ${{env.GITHUB_WORKSPACE}}
-      # # Add additional options to the MSBuild command line here (like platform or verbosity level).
-      # # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
-      # run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
-      
-      
+            
     - name: publish-windows
       working-directory: ${{env.GITHUB_WORKSPACE}}
       ###run: dotnet publish -c Release -f ${{ env.NETVERSION }} -p:RuntimeIdentifierOverride=win10-x64 -p:SelfContained=true -p:PublishSingleFile=true -p:WindowsAppSDKSelfContained=true
@@ -64,8 +50,8 @@ jobs:
         tag_name: ${{ github.run_number }}
         body: ${{ github.event.head_commit.message }}
 
-    - name: Zipping up Release folder
-      run: zip -r release.zip ${{ github.workspace }}/publish
+    # - name: Zipping up Release folder
+      # run: zip -r release.zip ${{ github.workspace }}/publish
             
     - name: Upload Release
       uses: softprops/action-gh-release@v2
@@ -74,7 +60,7 @@ jobs:
         prerelease: false    
         tag_name: ${{ github.run_number }}
         body: ${{ github.event.head_commit.message }}
-        files: ${{ github.workspace }}/release.zip
+        files: "${{ github.workspace }}/publish/Led Digital Clock.exe"
       env:
         GITHUB_TOKEN: ${{ github.token }} 
         
