@@ -23,7 +23,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v7
-            
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+       dotnet-version: '8.0.x'
+       
     - name: publish-windows
       working-directory: ${{env.GITHUB_WORKSPACE}}
       ###run: dotnet publish -c Release -f ${{ env.NETVERSION }} -p:RuntimeIdentifierOverride=win10-x64 -p:SelfContained=true -p:PublishSingleFile=true -p:WindowsAppSDKSelfContained=true
