@@ -18,15 +18,19 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-       dotnet-version: '10.0.x'
+       dotnet-version: '8.0.x'
        
-    - name: build
+    - name: publish-windows
       working-directory: ${{env.GITHUB_WORKSPACE}}
       ###run: dotnet publish -c Release -f ${{ env.NETVERSION }} -p:RuntimeIdentifierOverride=win10-x64 -p:SelfContained=true -p:PublishSingleFile=true -p:WindowsAppSDKSelfContained=true
-      ###run: dotnet publish -c Release -r win-x64 -p:EnableWindowsTargeting=true --self-contained true -p:PublishSingleFile=true -o ./publish
-      dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o ./publish-windows
-      dotnet publish -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -o ./publish-linux
+      run: dotnet publish -c Release -r win-x64 -p:EnableWindowsTargeting=true --self-contained true -p:PublishSingleFile=true -o ./publish
+
+    # - name: publish-linux
+      # working-directory: ${{env.GITHUB_WORKSPACE}}
+      # run: dotnet publish -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -o ./linux-x64/ACNHPockets-app       
       
+      
+      ###dotnet publish -c Release -r linux-x64 --self-contained true -o ./publish_ubuntu
       
     - name: Show Github infos
       run:  echo 'Workspace path ${{ github.workspace }} - runner.temp ${{ runner.temp }}'     
@@ -49,7 +53,7 @@ jobs:
         prerelease: false    
         tag_name: ${{ github.run_number }}
         body: ${{ github.event.head_commit.message }}
-        files: "${{ github.workspace }}/publish-windows/LEDDigitalClock.exe", "${{ github.workspace }}/publish-linux/LEDDigitalClock"
+        files: "${{ github.workspace }}/publish/Led Digital Clock.exe"
       env:
         GITHUB_TOKEN: ${{ github.token }} 
         
