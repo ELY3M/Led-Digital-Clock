@@ -1,4 +1,4 @@
-# LED Digital Clock with animation using C# windows application 
+# LED Digital Clock with animation using C# application 
 
 ![Screenshot](screenshot.png) 
 
