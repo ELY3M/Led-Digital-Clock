@@ -20,7 +20,6 @@ public partial class MainWindow : Window
         Height = 180;
         Background = new SolidColorBrush(Colors.Black);
         Foreground = new SolidColorBrush(Colors.Aqua);
-        FontFamily = "{StaticResource LCD}";
 
         var stackPanel = new StackPanel
         {
