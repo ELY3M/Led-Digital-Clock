@@ -25,14 +25,7 @@ jobs:
         dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o ./publish-windows
         dotnet publish -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -o ./publish-linux
       
-      ###run: dotnet publish -c Release -f ${{ env.NETVERSION }} -p:RuntimeIdentifierOverride=win10-x64 -p:SelfContained=true -p:PublishSingleFile=true -p:WindowsAppSDKSelfContained=true
-      ###run: dotnet publish -c Release -r win-x64 -p:EnableWindowsTargeting=true --self-contained true -p:PublishSingleFile=true -o ./publish
-
-      
-      
-    - name: Show Github infos
-      run:  echo 'Workspace path ${{ github.workspace }} - runner.temp ${{ runner.temp }}'     
-      
+  
     - name: Create Release
       uses: actions/create-release@latest
       env:
