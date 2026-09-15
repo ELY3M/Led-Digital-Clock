@@ -1,5 +1,4 @@
-﻿using Avalonia;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Media;
 using Avalonia.Threading;
 using System;
@@ -16,17 +15,17 @@ public partial class MainWindow : Window
 
     public MainWindow()
     {
-        Title = "Led Digital Clock";
+        Title = "Clock";
         Width = 600;
-        Height = 150;
+        Height = 180;
         Background = new SolidColorBrush(Colors.Black);
         Foreground = new SolidColorBrush(Colors.Aqua);
         FontFamily = "{StaticResource LCD}";
 
         var stackPanel = new StackPanel
         {
-            Margin = new Thickness(10),
-            Spacing = 10
+            HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
+            VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center
         };
 
         clock = new TextBlock
@@ -34,9 +33,7 @@ public partial class MainWindow : Window
             Text = "",
             Foreground = new SolidColorBrush(Colors.Aqua),
             FontFamily = "avares://LEDDigitalClock/Assets/Fonts/lcd.ttf#LCD",
-            FontSize = 75,
-            HorizontalAlignment = Avalonia.Layout.HorizontalAlignment.Center,
-            VerticalAlignment = Avalonia.Layout.VerticalAlignment.Center
+            FontSize = 90,
 
         };
 
