@@ -36,7 +36,7 @@ jobs:
         release_name: ${{ steps.version.outputs.version }}
         tag_name: ${{ github.run_number }}
         body: ${{ github.event.head_commit.message }}
-            
+
     - name: Upload Release
       uses: softprops/action-gh-release@v2
       with:
@@ -44,9 +44,10 @@ jobs:
         prerelease: false    
         tag_name: ${{ github.run_number }}
         body: ${{ github.event.head_commit.message }}
-        files: "${{ github.workspace }}/publish-windows/LEDDigitalClock.exe", "${{ github.workspace }}/publish-linux/LEDDigitalClock"
+        files: ${{ github.workspace }}/publish-windows/LEDDigitalClock.exe, ${{ github.workspace }}/publish-linux/LEDDigitalClock
       env:
         GITHUB_TOKEN: ${{ github.token }} 
+        
         
 
         
