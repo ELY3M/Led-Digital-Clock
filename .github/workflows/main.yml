@@ -80,7 +80,7 @@ jobs:
         prerelease: false    
         tag_name: ${{ github.run_number }}
         body: ${{ github.event.head_commit.message }}
-        files: ${{ github.workspace }}/publish-windows/LEDDigitalClock.exe, ${{ github.workspace }}/publish-linux/LEDDigitalClock, ${{ github.workspace }}/publish-android/own.LEDDigitalClock-Signed.apk
+        files: ${{ github.workspace }}/publish-windows/LEDDigitalClock.Desktop.exe, ${{ github.workspace }}/publish-linux/LEDDigitalClock.Desktop, ${{ github.workspace }}/publish-android/own.LEDDigitalClock-Signed.apk
       env:
         GITHUB_TOKEN: ${{ github.token }} 
         
