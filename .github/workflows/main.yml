@@ -47,7 +47,7 @@ jobs:
       run: |
         dotnet publish ${{ github.workspace }}/LEDDigitalClock.Desktop/LEDDigitalClock.Desktop.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:UseMonoRuntime=false -o ./publish-windows
         dotnet publish ${{ github.workspace }}/LEDDigitalClock.Desktop/LEDDigitalClock.Desktop.csproj -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:UseMonoRuntime=false -o ./publish-linux
-        dotnet publish ${{ github.workspace }}/LEDDigitalClock.Android/LEDDigitalClock.Android.csproj -f net10.0-android -c Release -p:AndroidKeyStore=true -p:AndroidSigningKeyStore=${{ github.workspace }}\key.jks -p:AndroidSigningKeyAlias=${{ secrets.ALIAS }} -p:AndroidSigningKeyPass=${{ secrets.PASSWORD }} -p:AndroidSigningStorePass=${{ secrets.PASSWORD }} -o ./publish-android
+        dotnet publish ${{ github.workspace }}/LEDDigitalClock.Android/LEDDigitalClock.Android.csproj -f net10.0-android -c Release -p:AndroidKeyStore=true -p:AndroidSigningKeyStore=${{ github.workspace }}/key.jks -p:AndroidSigningKeyAlias=${{ secrets.ALIAS }} -p:AndroidSigningKeyPass=${{ secrets.PASSWORD }} -p:AndroidSigningStorePass=${{ secrets.PASSWORD }} -o ./publish-android
 
   
     - name: Create Release
