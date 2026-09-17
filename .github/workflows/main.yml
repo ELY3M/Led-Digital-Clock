@@ -21,12 +21,32 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
        dotnet-version: '10.0.x'
+
+    - name: Setup Java
+      uses: actions/setup-java@v4
+      with:
+        distribution: 'zulu'
+        java-version: 21
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v4
+      with:
+        packages: 'platform-tools'  
+          
+    - name: Decode key
+      uses: timheuer/base64-to-file@v1.2
+      with:
+       fileName: key.jks
+       fileDir: ${{ github.workspace }}
+       encodedString: ${{ secrets.KEY }}
        
     - name: build
       run: |
-        dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o ./publish-windows
-        dotnet publish -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -o ./publish-linux
-      
+        dotnet restore . 
+        dotnet publish ${{ github.workspace }}/LEDDigitalClock.Desktop/LEDDigitalClock.Desktop.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:UseMonoRuntime=false -o ./publish-windows
+        dotnet publish ${{ github.workspace }}/LEDDigitalClock.Desktop/LEDDigitalClock.Desktop.csproj -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:UseMonoRuntime=false -o ./publish-linux
+        dotnet publish ${{ github.workspace }}/LEDDigitalClock.Android/LEDDigitalClock.Android.csproj -f net10.0-android -c Release -p:AndroidKeyStore=true -p:AndroidSigningKeyStore=${{ github.workspace }}\key.jks -p:AndroidSigningKeyAlias=${{ secrets.ALIAS }} -p:AndroidSigningKeyPass=${{ secrets.PASSWORD }} -p:AndroidSigningStorePass=${{ secrets.PASSWORD }} -o ./publish-android
+
   
     - name: Create Release
       uses: actions/create-release@latest
@@ -46,7 +66,7 @@ jobs:
         prerelease: false    
         tag_name: ${{ github.run_number }}
         body: ${{ github.event.head_commit.message }}
-        files: ${{ github.workspace }}/publish-windows/LEDDigitalClock.exe, ${{ github.workspace }}/publish-linux/LEDDigitalClock
+        files: ${{ github.workspace }}/publish-windows/LEDDigitalClock.exe, ${{ github.workspace }}/publish-linux/LEDDigitalClock, ${{ github.workspace }}/publish-android/own.LEDDigitalClock-Signed.apk
       env:
         GITHUB_TOKEN: ${{ github.token }} 
         

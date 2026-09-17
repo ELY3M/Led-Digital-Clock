@@ -4,8 +4,8 @@ using Avalonia.Threading;
 using System;
 using System.Timers;
 
-namespace LEDDigitalClock;
 
+namespace LEDDigitalClock.Views;
 
 public partial class MainWindow : Window
 {
@@ -55,4 +55,3 @@ public partial class MainWindow : Window
     }
 
 }
-

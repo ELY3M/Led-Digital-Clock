@@ -1,3 +1,11 @@
 <Solution>
-  <Project Path="LEDDigitalClock.csproj" />
+  <Project Path="LEDDigitalClock.Android/LEDDigitalClock.Android.csproj">
+    <Deploy />
+  </Project>
+  <Project Path="LEDDigitalClock.Browser/LEDDigitalClock.Browser.csproj" />
+  <Project Path="LEDDigitalClock.Desktop/LEDDigitalClock.Desktop.csproj" />
+  <Project Path="LEDDigitalClock.iOS/LEDDigitalClock.iOS.csproj">
+    <Deploy />
+  </Project>
+  <Project Path="LEDDigitalClock/LEDDigitalClock.csproj" />
 </Solution>
