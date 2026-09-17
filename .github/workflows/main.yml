@@ -23,6 +23,9 @@ jobs:
        dotnet-version: '10.0.x'
 
     - name: Restore .NET Workloads
+      run: sudo apt install dotnet10
+      
+    - name: Restore .NET Workloads
       run: sudo dotnet workload restore
   
     - name: Setup Java
