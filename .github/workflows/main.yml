@@ -53,9 +53,9 @@ jobs:
         
     - name: list
       run: |
-        ls -la publish-windows
-        ls -la publish-linux
-        ls -la publish-windows  
+         ls -la publish-windows
+         ls -la publish-linux
+         ls -la publish-windows  
 
       - name: get date/date 
         env:
