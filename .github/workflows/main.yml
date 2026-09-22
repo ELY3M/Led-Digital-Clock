@@ -59,28 +59,24 @@ jobs:
         ls -la publish-windows
         ls -la publish-linux
         ls -la publish-windows  
-        
-    - name: Create Release
-      uses: actions/create-release@latest
-      env:
-        GITHUB_TOKEN: ${{ github.token }} 
-      with:
-        draft: false
-        prerelease: false
-        release_name: ${{ steps.version.outputs.version }}
-        tag_name: ${{ github.run_number }}
-        body: ${{ github.event.head_commit.message }}
 
-    - name: Upload Release
-      uses: softprops/action-gh-release@v2
-      with:
-        draft: false
-        prerelease: false    
-        tag_name: ${{ github.run_number }}
-        body: ${{ github.event.head_commit.message }}
-        files: ${{ github.workspace }}/publish-windows/LEDDigitalClock.Desktop.exe, ${{ github.workspace }}/publish-linux/LEDDigitalClock.Desktop, ${{ github.workspace }}/publish-android/own.LEDDigitalClock-Signed.apk
-      env:
-        GITHUB_TOKEN: ${{ github.token }} 
+      - name: get date/date 
+        env:
+          TZ: "America/Chicago"
+        run: | 
+          echo "NOW=$(date +'%m-%d-%Y-%I.%M.%S.%p')" >> $GITHUB_ENV
+          
+      - name: Publish Release
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: false
+          prerelease: false    
+          tag_name: ${{ env.NOW }}
+          body: ${{ github.event.head_commit.message }}
+          files: ${{ github.workspace }}/publish-windows/LEDDigitalClock.Desktop.exe, ${{ github.workspace }}/publish-linux/LEDDigitalClock.Desktop, ${{ github.workspace }}/publish-android/own.LEDDigitalClock-Signed.apk
+          name: "Release ${{ env.NOW }}"
+        env:
+          GITHUB_TOKEN: ${{ github.token }} 
         
         
 
