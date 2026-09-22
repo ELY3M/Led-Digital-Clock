@@ -15,63 +15,62 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v7
+      - uses: actions/checkout@v7
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-       dotnet-version: '10.0.x'
-      
-    - name: Restore .NET Workloads
-      run: dotnet workload restore
-  
-    - name: Setup Java
-      uses: actions/setup-java@v5
-      with:
-        distribution: 'zulu'
-        java-version: 21
-
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v4 
-          
-    - name: Decode key
-      uses: timheuer/base64-to-file@v1.2
-      with:
-       fileName: key.jks
-       fileDir: ${{ github.workspace }}
-       encodedString: ${{ secrets.KEY }}
-     
-               
-    - name: build windows 
-      run: dotnet publish ${{ github.workspace }}/LEDDigitalClock.Desktop/LEDDigitalClock.Desktop.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:UseMonoRuntime=false -o ./publish-windows
-
-    - name: build linux
-      run: dotnet publish ${{ github.workspace }}/LEDDigitalClock.Desktop/LEDDigitalClock.Desktop.csproj -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:UseMonoRuntime=false -o ./publish-linux
-
-    - name: build android
-      run: dotnet publish ${{ github.workspace }}/LEDDigitalClock.Android/LEDDigitalClock.Android.csproj -f net10.0-android -c Release -p:AndroidKeyStore=true -p:AndroidSigningKeyStore=${{ github.workspace }}/key.jks -p:AndroidSigningKeyAlias=${{ secrets.ALIAS }} -p:AndroidSigningKeyPass=${{ secrets.PASSWORD }} -p:AndroidSigningStorePass=${{ secrets.PASSWORD }} -o ./publish-android
-        
-    # - name: list
-      # run: |
-         # ls -la publish-windows
-         # ls -la publish-linux
-         # ls -la publish-windows  
-
-      - name: get date/date 
-        env:
-          TZ: "America/Chicago"
-        run: | 
-          echo "NOW=$(date +'%m-%d-%Y-%I.%M.%S.%p')" >> $GITHUB_ENV
-
-      - name: Publish GitHub release
-        uses: softprops/action-gh-release@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
         with:
-          tag_name: ${{ env.NOW }}
-          prerelease: false
-          draft: false
-          body: ${{ github.event.head_commit.message }}
-          files: ${{ github.workspace }}/publish-windows/LEDDigitalClock.Desktop.exe, ${{ github.workspace }}/publish-linux/LEDDigitalClock.Desktop, ${{ github.workspace }}/publish-android/own.LEDDigitalClock-Signed.apk
-          name: "Release ${{ env.NOW }}"
+         dotnet-version: '10.0.x'
+        
+      - name: Restore .NET Workloads
+        run: dotnet workload restore
+    
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: 21
+   
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v4 
+            
+      - name: Decode key
+        uses: timheuer/base64-to-file@v1.2
+        with:
+         fileName: key.jks
+         fileDir: ${{ github.workspace }}
+         encodedString: ${{ secrets.KEY }}
+
+      - name: build windows 
+        run: dotnet publish ${{ github.workspace }}/LEDDigitalClock.Desktop/LEDDigitalClock.Desktop.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:UseMonoRuntime=false -o ./publish-windows
+
+      - name: build linux
+        run: dotnet publish ${{ github.workspace }}/LEDDigitalClock.Desktop/LEDDigitalClock.Desktop.csproj -c Release -r linux-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:UseMonoRuntime=false -o ./publish-linux
+
+      - name: build android
+        run: dotnet publish ${{ github.workspace }}/LEDDigitalClock.Android/LEDDigitalClock.Android.csproj -f net10.0-android -c Release -p:AndroidKeyStore=true -p:AndroidSigningKeyStore=${{ github.workspace }}/key.jks -p:AndroidSigningKeyAlias=${{ secrets.ALIAS }} -p:AndroidSigningKeyPass=${{ secrets.PASSWORD }} -p:AndroidSigningStorePass=${{ secrets.PASSWORD }} -o ./publish-android
+        
+      - name: list
+        run: |
+           ls -la publish-windows
+           ls -la publish-linux
+           ls -la publish-windows  
+    
+        - name: get date/date 
+          env:
+            TZ: "America/Chicago"
+          run: | 
+            echo "NOW=$(date +'%m-%d-%Y-%I.%M.%S.%p')" >> $GITHUB_ENV
+    
+        - name: Publish GitHub release
+          uses: softprops/action-gh-release@v2
+          with:
+            tag_name: ${{ env.NOW }}
+            prerelease: false
+            draft: false
+            body: ${{ github.event.head_commit.message }}
+            files: ${{ github.workspace }}/publish-windows/LEDDigitalClock.Desktop.exe, ${{ github.workspace }}/publish-linux/LEDDigitalClock.Desktop, ${{ github.workspace }}/publish-android/own.LEDDigitalClock-Signed.apk
+            name: "Release ${{ env.NOW }}"
           
                 
         
