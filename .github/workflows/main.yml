@@ -65,19 +65,18 @@ jobs:
           TZ: "America/Chicago"
         run: | 
           echo "NOW=$(date +'%m-%d-%Y-%I.%M.%S.%p')" >> $GITHUB_ENV
-          
-      - name: Publish Release
+
+      - name: Publish GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          draft: false
-          prerelease: false    
           tag_name: ${{ env.NOW }}
+          prerelease: false
+          draft: false
           body: ${{ github.event.head_commit.message }}
           files: ${{ github.workspace }}/publish-windows/LEDDigitalClock.Desktop.exe, ${{ github.workspace }}/publish-linux/LEDDigitalClock.Desktop, ${{ github.workspace }}/publish-android/own.LEDDigitalClock-Signed.apk
           name: "Release ${{ env.NOW }}"
-        env:
-          GITHUB_TOKEN: ${{ github.token }} 
-        
+          
+                
         
 
         
